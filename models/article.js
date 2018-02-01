@@ -6,7 +6,6 @@ const ObjectId = Schema.Types.ObjectId;
  * 文章
  */
 const ArticleSchema = new Schema({
-    id: ObjectId,
     title: {
         type: String,
         default: '',
@@ -30,7 +29,6 @@ const ArticleSchema = new Schema({
     jing: {
         type: Number,
         default: 0,
-        get: val => 0
     },
     category: {
         type: ObjectId,

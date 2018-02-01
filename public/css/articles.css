@@ -235,7 +235,7 @@
 .mt20 {
 	margin-top: 12px;
 }
-.manage-search .main-checkbox {
+.manage-search .main-radio {
 	float: right;
 	width: 20px;
 	height: 20px;
@@ -245,7 +245,7 @@
 	margin: 0px 0 0 5px;
 	border: 1px solid #de5c57;
 }
-.manage-search .main-checkbox label {
+.manage-search .main-radio label {
 	width: 20px;
 	height: 20px;
 	position: absolute;
@@ -253,7 +253,7 @@
 	left: 0;
 	cursor: pointer;
 }
-.manage-search .main-checkbox label:after {
+.manage-search .main-radio label:after {
 	content: "";
 	width: 10px;
 	height: 5px;
@@ -268,10 +268,10 @@
 	-webkit-transform: rotate(-45deg);
 	transform: rotate(-45deg);
 }
-.manage-search .main-checkbox input[type=checkbox] {
+.manage-search .main-radio input[type=radio] {
 	visibility: hidden;
 }
-.manage-search .main-checkbox input[type=checkbox]:checked + label:after {
+.manage-search .main-radio input[type=radio]:checked + label:after {
 	opacity: 1;
 }
 .manage-search .text {
@@ -528,6 +528,83 @@
 .my-information .col-md-9 label {
 	font-weight: normal;
 }
+/*单选框美化*/
+.magic-radio {
+  position: absolute;
+  display: none; }
+
+.magic-radio[disabled] {
+  cursor: not-allowed; }
+
+.magic-radio + label {
+  position: relative;
+  display: block;
+  padding-left: 30px;
+  cursor: pointer;
+  vertical-align: middle; }
+  .magic-radio + label:hover:before {
+    animation-duration: 0.4s;
+    animation-fill-mode: both;
+    animation-name: hover-color; }
+  .magic-radio + label:before {
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    content: '';
+    border: 1px solid #c0c0c0; }
+  .magic-radio + label:after {
+    position: absolute;
+    display: none;
+    content: ''; }
+
+.magic-radio[disabled] + label {
+  cursor: not-allowed;
+  color: #e4e4e4; }
+  .magic-radio[disabled] + label:hover,
+  .magic-radio[disabled] + label:before,
+  .magic-radio[disabled] + label:after {
+    cursor: not-allowed; }
+  .magic-radio[disabled] + label:hover:before {
+    border: 1px solid #e4e4e4;
+    animation-name: none; }
+  .magic-radio[disabled] + label:before {
+    border-color: #e4e4e4; }
+
+.magic-radio:checked + label:before {
+  animation-name: none; }
+
+.magic-radio:checked + label:after {
+  display: block; }
+
+
+
+.magic-radio + label:before {
+  border-radius: 3px; }
+
+.magic-radio + label:after {
+  top: 2px;
+  left: 7px;
+  box-sizing: border-box;
+  width: 6px;
+  height: 12px;
+  transform: rotate(45deg);
+  border-width: 2px;
+  border-style: solid;
+  border-color: #fff;
+  border-top: 0;
+  border-left: 0; }
+
+.magic-radio:checked + label:before {
+  border: #de5c57;
+  background: #de5c57; }
+
+.magic-radio:checked[disabled] + label:before {
+  border: #c9e2f9;
+  background: #c9e2f9; }
+.checkbox-inline, .radio-inline{padding-left: 0;}
 /*手机适配媒体查询*/
 
 

@@ -1,16 +1,16 @@
 var mongoose = require('mongoose');
 const Schema = mongoose.Schema;
+const moment = require('moment');
 const ObjectId = Schema.Types.ObjectId;
 /**
  * 栏目
  */
 const CategorySchema = new Schema({
-    id: ObjectId,
     name: String,
     path: String,
     sort: {
         type: Number,
-        default: 0
+        default: 100
     },
     pid: {
         type: ObjectId,
@@ -20,14 +20,22 @@ const CategorySchema = new Schema({
         type: String,
         default: ''
     },
+    is_sys: {
+        type: Number,
+        default: 0
+    },
+    is_nav: {
+        type: Number,
+        default: 0
+    },
     create_at: {
         type: Date,
-        default: Date.now,
+        default: Date.now(),
         get: val => moment(val).format('YYYY-MM-DD HH:mm')
     },
     update_at: {
         type: Date,
-        default: Date.now,
+        default: Date.now(),
         get: val => moment(val).format('YYYY-MM-DD HH:mm')
     },
     delete_at: {

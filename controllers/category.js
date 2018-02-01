@@ -8,7 +8,7 @@ const CategoryController = {
      */
     index: (req, res, next) => {
         Category.find().then(doc => {
-            res.send(doc);
+            res.json(doc);
         })
     },
     /**
@@ -16,10 +16,8 @@ const CategoryController = {
      */
     save: (req, res, next) => {
         let c = new Category({
-            name: 'Javascript',
-            path: 'javascript',
-            sort:0,
-            delete_at: ''
+            name: '个人中心',
+            path: '/personal',
         });
         c.save();
         res.send('ok');

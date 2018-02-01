@@ -13,4 +13,6 @@ module.exports = {
     |
     */
     path: env('UPLOAD_PATH') || './public/uploads',
+
+    static: env('STATIC_PATH') || '/uploads',
 }

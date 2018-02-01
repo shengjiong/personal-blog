@@ -6,7 +6,6 @@ const home = require('../controllers/home');
  * 首页路由
  */
 router.get('/', home.index);
-router.get('/page/:page', home.index);
-router.get('/:categoryPath', home.category);
+router.get('/:path', home.category);
 
 module.exports = router;

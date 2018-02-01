@@ -20,15 +20,18 @@ const ArticleController = {
      * 发布文章页面
      */
     add: (req, res, next) => {
-        res.render('add_article')
+        Category.find({'is_sys': 0}).where({delete_at: null}).then(document => {
+            res.render('add_article', {categoryList: document})
+        });
     },
     /**
      * 发布文章
      */
     save: (req, res, next) => {
+        console.log(req.file);
         let filename = '';
         if (req.file) {
-            let filename = req.file.filename;
+            filename = req.file.filename;
         }
         let article = new Article({
             'img': filename,
@@ -41,7 +44,6 @@ const ArticleController = {
         article.save();
         req.flash('info', '发布成功！');
         res.redirect("/");
-
     }
 }
 module.exports = ArticleController;

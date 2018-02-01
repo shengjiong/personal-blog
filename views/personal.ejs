@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>个人中心</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <!--width=device-width, initial-scale=1适当的绘制和触屏缩放;user-scalable=no禁用缩放-->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <!--bootstrap官方样式-->
+    <link rel="stylesheet" href="/css/normalize.css">
+    <!--强跨浏览器表现的一致性css 重置样式-->
+    <link rel="stylesheet" href="/css/main.css">
+
+    <!--自用样式-->
+</head>
+
+<body>
+
+<!-- 头部区域 -->
+<%- include('header') %>
+
+<!-- 导航区域 -->
+<%- include('nav') %>
+
+<!-- 主体 -->
+<section class="container">
+    <div class="tab">
+        <ul class="nav nav-tabs col-md-1" id="tabs">
+            <li class="active">
+                <a href="#Section1" data-toggle="tab">
+                    <i class="glyphicon glyphicon-file"></i>基本资料
+                </a>
+            </li>
+            <li>
+                <a href="#Section2" data-toggle="tab">
+                    <i class="glyphicon glyphicon-book"></i>文章管理
+                </a>
+            </li>
+        </ul>
+        <!-- Tab panes -->
+        <div class="tab-content col-md-11" id="panes">
+            <!-- 基本资料 -->
+            <div class="content">
+                <form action="/users/personal" method="post" enctype="multipart/form-data">
+                    <div class="my-information">
+                        <div class="col-md-9">
+                            <h3>基本资料 －<span>修改你的基本资料，将显示在首页博主简介中，并可以让更多的朋友了解和认识你！</span></h3>
+                            <div class="form-group">
+                                <label for="exampleInputEmail1">昵称：</label>
+                                <input class="form-control" id="nickname" name="nickname" value="<%= user.nickname %>"
+                                       placeholder="他是显示在首页的名字"
+                                       type="text">
+                            </div>
+                            <div class="form-group">
+                                <label for="exampleInputEmail1">个性签名：</label>
+                                <input class="form-control" id="signature" name="signature"
+                                       value="<%= user.signature %>" placeholder="你的设计感悟或者一句话介绍" type="text">
+                            </div>
+                            <div class="form-group">
+                                <label for="exampleInputEmail1">职位：</label>
+                                <input class="form-control" id="position" name="position" value="<%= user.position %>"
+                                       placeholder="曾经担任过或现任的职位" type="text">
+                            </div>
+                            <div class="form-group">
+                                <label for="exampleInputEmail1">社交账号：</label>
+                                <input class="form-control" id="other" name="other" value="<%= user.other %>"
+                                       placeholder=" 大家可以通过更多的渠道关注你。" type="text">
+                            </div>
+                            <div class="bs-example text-center" data-example-id="btn-variants">
+                                <button type="submit" class="btn btn-danger">保存信息</button>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <div class="fileinput fileinput-new">
+                                    <div class="fileinput-new thumbnail" id="preview2">
+                                        <img src="<%= user.avatar %>" alt="">
+                                    </div>
+                                    <div>
+                                    <span class="btn btn-primary btn-file my-file">
+                                        <span class="fileinput-new">选择文件</span>
+                                        <input type="file" onchange="preview2(this)" name="img"/>
+                                    </span>
+                                    </div>
+                                    <div style="width: 100%; text-align: center; margin-top: 10px;">
+                                        <a href="#" data-toggle="modal" data-target="#password">修改密码</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <!-- 文章管理 -->
+            <div class="content" style="display: none;">
+                <div class="pubboxw">
+                    <div class="manage-search">
+                        <div class="col-md-8">
+                            <form>
+                                <div class="myselectType">
+                                    <ul id="main_box">
+                                        <li class="select_box"><span>全部</span>
+                                            <ul class="son_ul">
+                                                <li>标题</li>
+                                                <li>关键字</li>
+                                            </ul>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <input placeholder="搜索从这里开始..." type="text">
+                                <button type="submit"></button>
+                            </form>
+                        </div>
+                        <div class="col-md-4 mt20"><span class="text">精选</span>
+                            <div class="main-checkbox">
+                                <input value="None" id="checkbox1" name="check" type="checkbox">
+                                <label for="checkbox1"></label>
+                            </div>
+                        </div>
+                    </div>
+                    <ul class="manage-list1">
+                        <li class="col-md-4">
+                            <div class="excerpt-minic">
+                                <div class="manage-list-box1"><img src="images/546546546456.jpg" class="img-responsive"
+                                                                   alt="实例剖析尼尔森十大交互设计原则在设计中的用法"
+                                                                   title="实例剖析尼尔森十大交互设计原则在设计中的用法">
+                                    <h3><a href="#">实例剖析尼尔森十大交互设计原则在设计中的用法</a></h3>
+                                    <p>前言：Jakob Nielsen（雅各布·尼尔森）的十大交互设计原则。</p>
+                                </div>
+                                <div class="cat"><span><a href="#">2018-1-1</a></span><span class="fr"><i
+                                                class="glyphicon glyphicon-pencil"></i><a onclick="pubboxshow()">编辑</a></span>
+                                    <span class="fr"><i class="glyphicon glyphicon-trash"></i><a href="#">删除</a></span>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="col-md-4">
+                            <div class="excerpt-minic">
+                                <div class="manage-list-box1"><img src="images/546546546456.jpg" class="img-responsive"
+                                                                   alt="实例剖析尼尔森十大交互设计原则在设计中的用法"
+                                                                   title="实例剖析尼尔森十大交互设计原则在设计中的用法">
+                                    <h3><a href="#">实例剖析尼尔森十大交互设计原则在设计中的用法</a></h3>
+                                    <p>前言：Jakob Nielsen（雅各布·尼尔森）的十大交互设计原则。</p>
+                                </div>
+                                <div class="cat"><span><a href="#">2018-1-1</a></span><span class="fr"><i
+                                                class="glyphicon glyphicon-pencil"></i><a href="#">编辑</a></span> <span
+                                            class="fr"><i class="glyphicon glyphicon-trash"></i><a
+                                                href="#">删除</a></span></div>
+                            </div>
+                        </li>
+                        <li class="col-md-4">
+                            <div class="excerpt-minic">
+                                <div class="manage-list-box1"><img src="images/546546546456.jpg" class="img-responsive"
+                                                                   alt="实例剖析尼尔森十大交互设计原则在设计中的用法"
+                                                                   title="实例剖析尼尔森十大交互设计原则在设计中的用法">
+                                    <h3><a href="#">实例剖析尼尔森十大交互设计原则在设计中的用法</a></h3>
+                                    <p>前言：Jakob Nielsen（雅各布·尼尔森）的十大交互设计原则。</p>
+                                </div>
+                                <div class="cat"><span><a href="#">2018-1-1</a></span><span class="fr"><i
+                                                class="glyphicon glyphicon-pencil"></i><a href="#">编辑</a></span> <span
+                                            class="fr"><i class="glyphicon glyphicon-trash"></i><a
+                                                href="#">删除</a></span></div>
+                            </div>
+                        </li>
+                        <li class="col-md-4">
+                            <div class="excerpt-minic">
+                                <div class="manage-list-box1"><img src="images/546546546456.jpg" class="img-responsive"
+                                                                   alt="实例剖析尼尔森十大交互设计原则在设计中的用法"
+                                                                   title="实例剖析尼尔森十大交互设计原则在设计中的用法">
+                                    <h3><a href="#">实例剖析尼尔森十大交互设计原则在设计中的用法</a></h3>
+                                    <p>前言：Jakob Nielsen（雅各布·尼尔森）的十大交互设计原则。</p>
+                                </div>
+                                <div class="cat"><span><a href="#">2018-1-1</a></span><span class="fr"><i
+                                                class="glyphicon glyphicon-pencil"></i><a href="#">编辑</a></span> <span
+                                            class="fr"><i class="glyphicon glyphicon-trash"></i><a
+                                                href="#">删除</a></span></div>
+                            </div>
+                        </li>
+                        <li class="col-md-4">
+                            <div class="excerpt-minic">
+                                <div class="manage-list-box1"><img src="images/546546546456.jpg" class="img-responsive"
+                                                                   alt="实例剖析尼尔森十大交互设计原则在设计中的用法"
+                                                                   title="实例剖析尼尔森十大交互设计原则在设计中的用法">
+                                    <h3><a href="#">实例剖析尼尔森十大交互设计原则在设计中的用法</a></h3>
+                                    <p>前言：Jakob Nielsen（雅各布·尼尔森）的十大交互设计原则。</p>
+                                </div>
+                                <div class="cat"><span><a href="#">2018-1-1</a></span><span class="fr"><i
+                                                class="glyphicon glyphicon-pencil"></i><a href="#">编辑</a></span> <span
+                                            class="fr"><i class="glyphicon glyphicon-trash"></i><a
+                                                href="#">删除</a></span></div>
+                            </div>
+                        </li>
+                    </ul>
+                    <ul class="pagination my-pagination">
+                        <li><a href="#">&laquo;</a></li>
+                        <li class="active"><a href="#">1</a></li>
+                        <li class="disabled"><a href="#">2</a></li>
+                        <li><a href="#">3</a></li>
+                        <li><a href="#">4</a></li>
+                        <li><a href="#">&raquo;</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- passwordModal -->
+    <div class="modal fade" id="password" tabindex="-1" role="dialog"
+         aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">修改密码</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">原密码：</label>
+                        <input class="form-control" id="" placeholder=" 请输入原密码" type="text">
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">新密码：</label>
+                        <input class="form-control" id="" placeholder=" 长度为6-16字符" type="text">
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">确认新密码：</label>
+                        <input class="form-control" id="" placeholder=" 长度为6-16字符" type="text">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">取消
+                    </button>
+                    <button type="button" class="btn btn-danger">确认</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- footer -->
+<%- include('footer') %>
+
+<script src="/js/jquery.min.js"></script><!--jquery-->
+<script src="/js/bootstrap.min.js"></script><!--bootstrap官方js-->
+<script src="/vendor/layer/layer.js"></script><!--layer-->
+<script type="text/javascript">
+
+    <% if(locals.info != "") { %>
+    layer.msg('<span><%= locals.info %></span>', {icon: 1, offset: '100px'});
+    <% } %>
+
+    $(function () {
+        $("#tabs li").click(function () {
+            $("#panes .content").hide();
+            $("#panes .content").eq($(this).index()).show();
+        })
+
+        $('.son_ul').hide();
+
+        $('.select_box span').click(function () {
+                $(this).parent().find('ul.son_ul').slideDown();  //找到ul.son_ul显示
+                $(this).parent().find('li').hover(function () {
+                    $(this).addClass('hover')
+                }, function () {
+                    $(this).removeClass('hover')
+                }); //li的hover效果
+                $(this).parent().hover(function () {
+                    },
+                    function () {
+                        $(this).parent().find("ul.son_ul").slideUp();
+                    }
+                );
+            },
+        );
+        $('ul.son_ul li').click(function () {
+            $(this).parents('li').find('span').html($(this).html());
+            $(this).parents('li').find('ul').slideUp();
+        });
+
+    })
+
+    //图片上传预览
+    function preview(file) {
+        var prevDiv = document.getElementById('preview');
+        if (file.files && file.files[0]) {
+            var reader = new FileReader();
+            reader.onload = function (evt) {
+                prevDiv.innerHTML = '<img src="' + evt.target.result + '" />';
+            }
+            reader.readAsDataURL(file.files[0]);
+        } else {
+            prevDiv.innerHTML = '<div class="img" style="filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod=scale,src=\'' + file.value + '\'"></div>';
+        }
+    }
+
+    //图片上传预览
+    function preview2(file) {
+        var prevDiv = document.getElementById('preview2');
+        if (file.files && file.files[0]) {
+            var reader = new FileReader();
+            reader.onload = function (evt) {
+                prevDiv.innerHTML = '<img src="' + evt.target.result + '" />';
+            }
+            reader.readAsDataURL(file.files[0]);
+        } else {
+            prevDiv.innerHTML = '<div class="img" style="filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod=scale,src=\'' + file.value + '\'"></div>';
+        }
+    }
+</script>
+</body>
+</html>

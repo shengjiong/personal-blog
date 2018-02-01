@@ -1,6 +1,7 @@
 const Article = require('../models/article');
 const Category = require('../models/category');
-const path = require('path');
+const trimHtml = require('trim-html');
+const static = require('../library/static');
 
 /**
  * 首页
@@ -8,61 +9,93 @@ const path = require('path');
 const Home = {
     /**
      * 首页
-     * @param req
-     * @param res
-     * @param next
      */
     index: (req, res, next) => {
-        Article.find().count().then(total => {
-            let page = req.params.page ? req.params.page : 1;
-            let rows = 2;
+        let searchVal = req.query.searchVal ? req.query.searchVal : '';
+        let regx = new RegExp(searchVal);
+        Article.find({title: {$regex: regx}}).where({delete_at: null}).count().then(total => {
+            let page = req.query.page ? req.query.page : 1;
+            let rows = 5;
             let totalPage = Math.ceil(total / rows);
-            Article.find().skip((page - 1) * 2).limit(rows).sort({'create_at': 'desc'}).then(document => {
-                document.forEach((data) => {
-                    if (data.img) {
-                        data.img = '/uploads' + data.img;
-                    }
-                })
-                res.render('index', {
-                        'list': document,
-                        'page': page,
-                        'rows': 'rows',
-                        'totalPage': totalPage,
-                        'total': total
-                    }
-                );
-            });
+            if (page > 1 && page > totalPage) {
+                let err = new Error('Not Found');
+                err.status = 404;
+                next(err);
+            } else {
+                Article.find({title: {$regex: regx}})
+                    .where({'delete_at': null})
+                    .skip((page - 1) * 2)
+                    .limit(rows)
+                    .sort({'create_at': 'desc'})
+                    .then(document => {
+                        document.forEach((data) => {
+                            if (data.img) {
+                                data.img = static(data.img);
+                            }
+                            let contents = trimHtml(data.contents, {limit: 100, preserveTags: false, sufix: '...'});
+                            data.contents = contents.html;
+                        })
+                        res.render('index', {
+                                'list': document,
+                                'page': page,
+                                'rows': 'rows',
+                                'totalPage': totalPage,
+                                'total': total
+                            }
+                        );
+                    });
+            }
         });
     },
+
     /**
-     * 首页
-     * @param req
-     * @param res
-     * @param next
+     * 栏目页
      */
     category: (req, res, next) => {
-        let categoryPath = req.params.categoryPath;
-        Category.findOne({path: '/' + categoryPath}).then(document => {
-            Article.find({category: document._id}).count().then(total => {
-                let page = req.params.page ? req.params.page : 1;
-                let rows = 2;
-                let totalPage = Math.ceil(total / rows);
-                Article.find({category: document._id}).skip((page - 1) * 2).limit(rows).sort({'create_at': 'desc'}).then(document => {
-                    document.forEach((data) => {
-                        if (data.img) {
-                            data.img = '/uploads' + data.img;
-                        }
-                    })
-                    res.render('index', {
-                            'list': document,
-                            'page': page,
-                            'rows': 'rows',
-                            'totalPage': totalPage,
-                            'total': total
-                        }
-                    );
+        let categoryPath = req.params.path;
+        Category.findOne({path: '/' + categoryPath}).where({delete_at: null}).then(document => {
+            if (!document) {
+                let err = new Error('Not Found');
+                err.status = 404;
+                next(err);
+            } else {
+                Article.find({category: document._id}).where({delete_at: null}).count().then(total => {
+                    let page = req.query.page ? req.query.page : 1;
+                    let rows = 5;
+                    let totalPage = Math.ceil(total / rows);
+                    if (page > 1 && page > totalPage) {
+                        let err = new Error('Not Found');
+                        err.status = 404;
+                        next(err);
+                    } else {
+                        Article.find({category: document._id})
+                            .where({'delete_at': null})
+                            .skip((page - 1) * 2).limit(rows)
+                            .sort({'create_at': 'desc'})
+                            .then(document => {
+                                document.forEach((data) => {
+                                    if (data.img) {
+                                        data.img = static(data.img);
+                                    }
+                                    let contents = trimHtml(data.contents, {
+                                        limit: 1,
+                                        preserveTags: false,
+                                        sufix: '...'
+                                    });
+                                    data.contents = contents.html;
+                                })
+                                res.render('list', {
+                                        'list': document,
+                                        'page': page,
+                                        'rows': 'rows',
+                                        'totalPage': totalPage,
+                                        'total': total
+                                    }
+                                );
+                            });
+                    }
                 });
-            });
+            }
         });
     }
 }

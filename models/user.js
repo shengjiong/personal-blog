@@ -6,7 +6,6 @@ const ObjectId = Schema.Types.ObjectId;
  * 用户
  */
 const UserSchema = new Schema({
-    id: ObjectId,
     username: {
         type: String,
         default: '',
@@ -37,12 +36,12 @@ const UserSchema = new Schema({
     },
     create_at: {
         type: Date,
-        default: Date.now,
+        default: Date.now(),
         get: val => moment(val).format('YYYY-MM-DD HH:mm')
     },
     update_at: {
-        type: Date,
-        default: Date.now,
+    type: Date,
+        default: Date.now(),
         get: val => moment(val).format('YYYY-MM-DD HH:mm')
     },
     delete_at: {
