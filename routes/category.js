@@ -6,8 +6,10 @@ const category = require('../controllers/category');
  * 分类路由
  */
 router.get('/index', category.index);
-router.get('/save', category.save);
-router.get('/update', category.update);
-router.get('/delete', category.delete);
+router.get('/:id', category.get);
+router.post('/save', category.save);
+router.post('/update/:id', category.update);
+router.get('/delete/:id', category.delete);
+router.get('/is_nav/:id/:is_nav', category.setNav);
 
 module.exports = router;

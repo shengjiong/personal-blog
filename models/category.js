@@ -14,8 +14,12 @@ const CategorySchema = new Schema({
     },
     pid: {
         type: ObjectId,
-        ref: 'category'
+        ref: 'Category'
     },
+    category: [{
+        type: ObjectId,
+        ref: 'Category'
+    }],
     template: {
         type: String,
         default: ''
@@ -30,12 +34,12 @@ const CategorySchema = new Schema({
     },
     create_at: {
         type: Date,
-        default: Date.now(),
+        default: Date.now,
         get: val => moment(val).format('YYYY-MM-DD HH:mm')
     },
     update_at: {
         type: Date,
-        default: Date.now(),
+        default: Date.now,
         get: val => moment(val).format('YYYY-MM-DD HH:mm')
     },
     delete_at: {

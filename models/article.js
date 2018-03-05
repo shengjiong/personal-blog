@@ -51,6 +51,13 @@ const ArticleSchema = new Schema({
     }
 })
 
+ArticleSchema.options.toJSON = ArticleSchema.options.toObject = {
+    transform: function (doc, ret, options) {
+        ret.create_at = moment(ret.create_at).format('YYYY-MM-DD HH:mm');
+        return ret;
+    }
+}
+
 /**
  * 文章实体
  */

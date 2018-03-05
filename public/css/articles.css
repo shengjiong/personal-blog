@@ -162,14 +162,14 @@
 	padding: 0;
 }
 .manage-search input {
-	background: #fff none repeat scroll 0 0;
-	border: 2px solid #de5c57;
-	border-radius: 5px;
-	color: #9e9c9c;
-	height: 42px;
-	outline: medium none;
-	padding: 0 120px;
-	width: 100%;
+    background: #fff none repeat scroll 0 0;
+    border: 2px solid #de5c57;
+    border-radius: 5px;
+    color: #9e9c9c;
+    height: 42px;
+    outline: medium none;
+    padding: 0 20px;
+    width: 100%;
 }
 .manage-search button {
 	background: #de5c57 none repeat scroll 0 0;
@@ -500,6 +500,73 @@
 .checked-switch:checked ~ .toggle-btn {
 	left: 51px;
 }
+
+.checkbox {
+    position: relative;
+    height: 30px;
+    margin:0;
+    text-align: right;
+    float: right;
+    width: 70px;
+}
+.checkbox input[type='checkbox'] {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 20px;
+    height: 20px;
+    opacity: 0;
+}
+.checkbox label {
+    position: absolute;
+    left: 30px;
+    top: 0;
+    height: 20px;
+    line-height: 20px;
+    padding-left: 0;
+}
+.checkbox label:before {
+    content: '';
+    position: absolute;
+    left: -30px;
+    top: 0;
+    width: 20px;
+    height: 20px;
+    border: 1px solid #ddd;
+    border-radius: 50%;
+    transition: all 0.3s ease;
+    -webkit-transition: all 0.3s ease;
+    -moz-transition: all 0.3s ease;
+}
+
+.checkbox label:after {
+    content: '';
+    position: absolute;
+    left: -22px;
+    top: 3px;
+    width: 6px;
+    height: 12px;
+    border: 0;
+    border-right: 1px solid #fff;
+    border-bottom: 1px solid #fff;
+    background: #fff;
+    transform: rotate(45deg);
+    -webkit-transform: rotate(45deg);
+    -moz-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    transition: all 0.3s ease;
+    -webkit-transition: all 0.3s ease;
+    -moz-transition: all 0.3s ease;
+}
+
+.checkbox input[type='checkbox']:checked + label:before {
+    background: #de5c57;
+    border-color: #de5c57;
+}
+.checkbox input[type='checkbox']:checked + label:after {
+    background: #de5c57;
+}
+
 .text-switch, .toggle-btn {
 	transition: All 0.3s ease;
 	-webkit-transition: All 0.3s ease;
