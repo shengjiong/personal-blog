@@ -460,9 +460,12 @@
         $.get('/article/get/' + id, function (data) {
             if (data.status == 1) {
                 var article = data.result;
+                $('#article-id').val(article._id);
                 $('#title').val(article.title);
                 $('#author').val(article.author);
-                if (article.is_jing == 0) {
+                $('#category_id').val(article.category);
+                $('#preview').html('<img src="/uploads/' + article.img + '">');
+                if (article.jing == 1) {
                     $("input[name='is_jing']").get(0).checked = true;
                 } else {
                     $("input[name='is_jing']").get(1).checked = true;
@@ -476,6 +479,41 @@
         })
     }
 
+    /**
+     * 更新文章
+     */
+    function updateArticle() {
+        var id = $('#article-id').val();
+        var title = $('#title').val();
+        var author = $('#author').val();
+        var category = $('#category_id').val();
+        var jing = $('input:radio[name="is_jing"]:checked').val();
+        var imgData = $('#article-img').val();
+        var suffix = $('#article-suffix').val();
+        var contents = editor.txt.html();
+        $.post('/article/update/' + id, {
+            title: title,
+            author: author,
+            category: category,
+            jing: jing,
+            imgData: imgData,
+            suffix: suffix,
+            contents: contents
+        }, function (data) {
+            if (data.status == 1) {
+                $("#edit").hide();
+                $("#list").show();
+                layer.msg(data.msg);
+                getArticleList();
+            } else {
+                layer.msg(data.msg);
+            }
+        });
+    }
+
+    /**
+     * 关闭文章
+     */
     function closeEditArticle() {
         $("#edit").hide();
         $("#list").show();

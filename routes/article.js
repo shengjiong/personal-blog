@@ -12,6 +12,7 @@ router.get('/add', auth, article.add);
 router.post('/save', upload.single('img'), article.save);
 router.get('/:id', article.get);
 router.get('/get/:id', article.getAjax);
+router.post('/update/:id', article.update);
 router.get('/delete/:id', article.delete);
 
 module.exports = router;

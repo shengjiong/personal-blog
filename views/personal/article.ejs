@@ -34,7 +34,7 @@
             <div class="col-md-3">
                 <form id="uploadForm">
                     <div class="form-group">
-                        <div class="h4"><span class="glyphicon glyphicon-user"></span>王妞妞</div>
+                        <div class="h4"></div>
                         <div class="fileinput fileinput-new">
                             <div class="fileinput-new thumbnail" id="preview"></div>
                             <div> <span class="btn btn-primary btn-file my-file"> <span
@@ -48,6 +48,9 @@
             </div>
             <div class="col-md-9 my-form">
                 <form>
+                    <input type="hidden" id="article-id" value="">
+                    <input type="hidden" id="article-img" value="">
+                    <input type="hidden" id="article-suffix" value="">
                     <div class="form-group">
                         <label for="exampleInputPassword1">标题</label>
                         <input class="form-control" placeholder="请输入标题" type="text" id="title">
@@ -57,11 +60,9 @@
                         <div class="col-md-6">
                             <label for="exampleInputPassword1">类型</label>
                             <select class="form-control" id="category_id">
-                                <option>请选择类型</option>
-                                <option>2</option>
-                                <option>3</option>
-                                <option>4</option>
-                                <option>5</option>
+                                <% for(var i = 0; i < personalCategoryList.length; i++) { %>
+                                <option value="<%= personalCategoryList[i]._id %>"><%= personalCategoryList[i].name %></option>
+                                <% } %>
                             </select>
                             <p class="tit-Prompt">请选择类型</p>
                         </div>
@@ -96,8 +97,8 @@
             </div>
         </div>
         <div class="my-button">
-            <button type="button" class="btn btn-danger">立即保存</button>
-            <button type="button" class="btn btn-default " onclick="closeEditArticle()">返回列表</button>
+            <button type="button" class="btn btn-danger" onclick="updateArticle()">立即保存</button>
+            <button type="button" class="btn btn-default" onclick="closeEditArticle()">返回列表</button>
         </div>
     </div>
 </div>

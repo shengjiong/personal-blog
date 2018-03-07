@@ -1,5 +1,8 @@
 const Article = require('../models/article');
 const Category = require('../models/category');
+const uploadConfig = require('../config/upload');
+const fs = require('fs');
+const path = require('../library/path');
 
 const ArticleController = {
     /**
@@ -20,7 +23,7 @@ const ArticleController = {
             where.title = {$regex: regex};
         }
         if (is_jing == 1) {
-            where.is_jing = 1
+            where.jing = 1
         }
         Article.find(where).count().then(doc => {
             count = doc;
@@ -69,12 +72,12 @@ const ArticleController = {
      * 发布文章页面
      */
     add: (req, res, next) => {
-        Category.find({'is_sys': 0}).where({delete_at: null}).then(document => {
+        Category.find({'is_sys': 0}).where({delete_at: null}).where({pid: null}).then(document => {
             res.render('add_article', {categoryList: document})
         });
     },
     /**
-     * 发布文章
+     * 保存文章
      */
     save: (req, res, next) => {
         let filename = '';
@@ -94,7 +97,65 @@ const ArticleController = {
         res.redirect("/");
     },
     /**
-     * 发布文章
+     * 更新文章
+     */
+    update: (req, res, next) => {
+        let id = req.params.id;
+        let imgData = req.body.imgData;
+        let suffix = req.body.suffix;
+        let base64Data = imgData.replace(/^data:image\/\w+;base64,/, "");
+        let dataBuffer = new Buffer(base64Data, 'base64');
+        let filepath = path.upload(suffix);
+        if (base64Data) {
+            fs.writeFile(uploadConfig.path + filepath, dataBuffer, function (err) {
+                if (err) {
+                    res.json({
+                        'status': 1,
+                        'msg': '保存失败!'
+                    });
+                } else {
+                    Article.update({_id: id}, {
+                        'img': filepath,
+                        'title': req.body.title,
+                        'category': req.body.category,
+                        'author': req.body.author,
+                        'jing': req.body.jing,
+                        'contents': req.body.contents
+                    }).then(doc => {
+                        res.json({
+                            status: 1,
+                            msg: '保存成功！'
+                        })
+                    }).catch(err => {
+                        res.json({
+                            status: 0,
+                            msg: '保存失败！'
+                        })
+                    });
+                }
+            });
+        } else {
+            Article.update({_id: id}, {
+                'title': req.body.title,
+                'category': req.body.category,
+                'author': req.body.author,
+                'jing': req.body.jing,
+                'contents': req.body.contents
+            }).then(doc => {
+                res.json({
+                    status: 1,
+                    msg: '保存成功！'
+                })
+            }).catch(err => {
+                res.json({
+                    status: 0,
+                    msg: '保存失败！'
+                })
+            });
+        }
+    },
+    /**
+     * 删除文章
      */
     delete: (req, res, next) => {
         Article.remove({_id: req.params.id}).then(doc => {

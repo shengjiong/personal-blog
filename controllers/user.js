@@ -37,15 +37,15 @@ const UserController = {
     },
     personal: (req, res, next) => {
         let user = req.session.user;
-        Category.find({pid: null}).then(document => {
+        Category.find({'is_sys': 0}).where({delete_at: null}).where({pid: null}).then(document => {
             let category = document;
-            res.render('personal', {user: user, category: category});
+            res.render('personal', {user: user, personalCategoryList: category});
         });
     },
     update: (req, res, next) => {
         let user = req.session.user;
-        var imgData = req.body.img;
-        var suffix = req.body.suffix;
+        let imgData = req.body.img;
+        let suffix = req.body.suffix;
         user.nickname = req.body.nickname;
         user.signature = req.body.signature;
         user.position = req.body.position;
