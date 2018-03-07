@@ -61,6 +61,7 @@
 <script type="text/javascript" src="/js/jquery.basictable.min.js"></script>
 <script src="/vendor/layer/layer.js"></script><!--bootstrap官方js-->
 <script src="/vendor/bootstrap-switch/bootstrap-switch.min.js"></script><!--bootstrap官方js-->
+<script src="http://unpkg.com/wangeditor/release/wangEditor.min.js"></script> <!--编辑器-->
 <script type="text/javascript">
     $(document).ready(function () {
         //表格适应初始化
@@ -69,34 +70,17 @@
 </script>
 <script type="text/javascript">
 
+    /**
+     * 初始化编辑器
+     */
+    var E = window.wangEditor
+    var editor = new E('#contents-div')
+    editor.create()
+
     //搜索筛选下拉
     $(document).ready(function () {
-
             getCategoryList();
             getArticleList(1, '', 0);
-
-            $('.son_ul').hide();
-
-            $('.select_box span').click(function () {
-
-                    $(this).parent().find('ul.son_ul').slideDown();  //找到ul.son_ul显示
-                    $(this).parent().find('li').hover(function () {
-                        $(this).addClass('hover')
-                    }, function () {
-                        $(this).removeClass('hover')
-                    }); //li的hover效果
-                    $(this).parent().hover(function () {
-                        },
-                        function () {
-                            $(this).parent().find("ul.son_ul").slideUp();
-                        }
-                    );
-                },
-            );
-            $('ul.son_ul li').click(function () {
-                $(this).parents('li').find('span').html($(this).html());
-                $(this).parents('li').find('ul').slideUp();
-            });
         }
     );
 
@@ -476,7 +460,14 @@
         $.get('/article/get/' + id, function (data) {
             if (data.status == 1) {
                 var article = data.result;
-                
+                $('#title').val(article.title);
+                $('#author').val(article.author);
+                if (article.is_jing == 0) {
+                    $("input[name='is_jing']").get(0).checked = true;
+                } else {
+                    $("input[name='is_jing']").get(1).checked = true;
+                }
+                editor.txt.html(article.contents)
                 $("#list").hide();
                 $("#edit").show();
             } else {
