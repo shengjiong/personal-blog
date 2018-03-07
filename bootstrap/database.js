@@ -17,7 +17,12 @@ const mongodb = database.mongodb;
 |
 */
 //const uri = `${mongodb.client}://web01:123456@${mongodb.connection.host}:${mongodb.connection.port}/${mongodb.connection.name}`;
-const uri = `${mongodb.client}://${mongodb.connection.host}:${mongodb.connection.port}/${mongodb.connection.name}`;
+let uri = '';
+if (mongodb.connection.username) {
+    uri = `${mongodb.client}://${mongodb.connection.username}:${mongodb.connection.password}@${mongodb.connection.host}:${mongodb.connection.port}/${mongodb.connection.name}`;
+} else {
+    uri = `${mongodb.client}://${mongodb.connection.host}:${mongodb.connection.port}/${mongodb.connection.name}`;
+}
 
 /*
 |--------------------------------------------------------------------------

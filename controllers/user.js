@@ -21,6 +21,9 @@ const UserController = {
                     req.session.user = user;
                     let url = req.session.originalUrl ? req.session.originalUrl : '/';
                     res.redirect(url);
+                } else {
+                    req.flash('error', '登录失败, 用户名密码错误！');
+                    res.redirect("/users/login");
                 }
             } else {
                 req.flash('error', '登录失败, 用户名密码错误！');

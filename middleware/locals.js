@@ -8,7 +8,7 @@ const LocalsMiddleware = (req, res, next) => {
     res.locals.searchVal = req.query.searchVal ? req.query.searchVal : '';
     res.locals.error = req.flash('error');
     res.locals.info = req.flash('info');
-    Category.find({'delete_at': null}).where({'is_nav': 1}).sort({'sort': 'desc'}).then(document => {
+    Category.find({delete_at: null}).where({is_nav: 1}).where({pid: null}).sort({sort: 'desc'}).then(document => {
         res.locals.path = req.path;
         res.locals.category = document;
         User.findOne({username: 'blog'}).then(document => {
