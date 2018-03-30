@@ -2,15 +2,17 @@
 <aside class="sidebar  col-md-4">
     <!-- 博主简介 -->
     <div class="home-about excerpt-minic">
-        <div class="title">博主简介</div>
-        <div class="home-about-img">
-            <img src="images/icon.jpg" alt=""></div>
-        <div class="home-about-text1">
-            <b><%= locals.user.nickname %></b>
-            <p><%= locals.user.position %></p>
-            <p><%= locals.user.other %></p>
+        <div class="title">博主简介
         </div>
-        <div class="home-about-text2">个人签名：<%= locals.user.signature %></div>
+        <div class="home-about-img">
+            <img src="images/logo1.jpg" alt="">
+        </div>
+        <div class="home-about-text1">
+            <b><%= locals.loginUser?locals.loginUser.nickname:'二货道士' %></b>
+            <p><%= locals.loginUser?locals.loginUser.position:'涂山苏苏' %></p>
+            <p><%= locals.loginUser?locals.loginUser.other:'王权富贵' %></p>
+        </div>
+        <div class="home-about-text2">个人签名：<%= locals.loginUser?locals.loginUser.signature:'没有登录账号显示的页面' %></div>
     </div>
     <!-- 精选文章 -->
     <div class="home-selected excerpt-minic">
